@@ -1,116 +1,119 @@
 <template>
-  <div class="indexs">
+  <el-container class="mys_container">
+    <!-- 头部 -->
+    <el-header class="header">
+      <el-row :gutter="20">
+        <el-col :span="4" justify="center" align="middle">
+          <img src="../assets/img/Snipaste_2019-08-15_15-12-19.jpg" alt height="50px" />
+        </el-col>
+        <el-col :span="16" justify="center" align="middle">
+          <i class="header_i">后台商品管理系统</i>
+        </el-col>
+        <el-col :span="4" justify="center" align="middle">
+          <a class="header_a" @click.prevent="logout">注销</a>
+        </el-col>
+      </el-row>
+    </el-header>
+
     <el-container>
-      <!-- 顶部标题栏 -->
+      <!-- 侧栏 -->
+      <el-aside width="180px" class="mys_aside" style="overflow-x: hidden">
+        <el-menu class="el-menu-vertical-demo" unique-opened router collapse-transition>
+          <el-submenu :index="''+temp.order" v-for="(temp, index) in menuitems" :key="index">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>{{temp.authName}}</span>
+            </template>
+            <el-menu-item :index="temps.path" v-for="(temps, index) in temp.children" :key="index">
+              <i class="el-icon-collection-tag"></i>
+              {{temps.authName}}
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
 
-      <el-header>后台管理系统
-        <!-- <el-row>
-          <el-col :span="4">
-            <div class="grid-content bg-purple"></div>
-          </el-col>
-          <el-col :span="16">
-            <div class="grid-content bg-purple">后台管理系统</div>
-          </el-col>
-          <el-col :span="4">
-            <div class="grid-content bg-purple"></div>
-          </el-col>
-        </el-row> -->
-      </el-header>
-
-      <el-container>
-        <!-- 侧边导航栏 -->
-        <el-aside width="150px">
-          <el-menu :default-openeds="['1', '5']">
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-message"></i>用户管理
-              </template>
-              <el-menu-item index="1-1">用户列表</el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="2">
-              <template slot="title">
-                <i class="el-icon-message"></i>权限管理
-              </template>
-              <el-menu-item index="2-1">角色列表</el-menu-item>
-              <el-menu-item index="2-2">权限列表</el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="3">
-              <template slot="title">
-                <i class="el-icon-message"></i>商品管理
-              </template>
-              <el-menu-item index="3-1">商品列表</el-menu-item>
-              <el-menu-item index="3-2">分类参数</el-menu-item>
-              <el-menu-item index="3-3">商品分类</el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="4">
-              <template slot="title">
-                <i class="el-icon-message"></i>订单管理
-              </template>
-              <el-menu-item index="4-1">订单列表</el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="5">
-              <template slot="title">
-                <i class="el-icon-message"></i>数据统计
-              </template>
-              <el-menu-item index="5-1">数据报表</el-menu-item>
-            </el-submenu>
-          </el-menu>
-        </el-aside>
-
-        <!-- 内容区域 -->
-        <el-main>Main</el-main>
-      </el-container>
+      <!-- 底部 -->
+      <el-main class="mys_main">
+        <router-view></router-view>
+      </el-main>
     </el-container>
-  </div>
+  </el-container>
 </template>
 
 <script>
-export default {};
+import { menus } from "../api/http";
+
+export default {
+  data() {
+    return {
+      menuitems: []
+    };
+  },
+
+  methods: {
+    logout() {
+      this.$confirm("此操作将注销账户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "注销成功!"
+          });
+
+          // 发送请求注销
+          window.sessionStorage.removeItem("token");
+
+          // 返回登录页面
+          this.$router.push("/login");
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消注销"
+          });
+        });
+    }
+  },
+
+  created() {
+    menus().then(res => {
+      this.menuitems = res.data.data;
+    });
+  }
+};
 </script>
 
 <style lang="less" scoped>
-.el-header,
-.el-footer {
-  background-color: #6cc1d6;
-  color: #333;
-  text-align: center;
+.header {
+  background-color: rgb(42, 142, 182);
+  height: 60px;
   line-height: 60px;
 }
 
-.el-aside {
-  //   background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
+.header_i {
+  font-size: 25px;
+  color: #fff;
+  letter-spacing: 2px;
+}
+.header_a {
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 2px;
 }
 
-.el-main {
-  background-color: #e9eef3;
-  color: #333;
-  text-align: center;
-  line-height: 160px;
+.mys_container {
+  height: 100%;
 }
-.indexs {
-  .el-container {
-    .el-header {
-      font-size: 25px;
-      color: rgb(255, 255, 255);
-      letter-spacing: 2px;
-    }
 
-    .el-container {
-      height: 100%;
-      .el-menu {
-        height: 100%;
-      }
-      .el-main {
-        height: 100%;
-      }
-    }
-  }
+.mys_aside {
+  background-color: rgb(255, 255, 255);
+}
+
+.mys_main {
+  background-color: rgb(218, 218, 218);
 }
 </style>

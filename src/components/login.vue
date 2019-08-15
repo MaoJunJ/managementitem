@@ -34,13 +34,16 @@
 </template>
 
 <script>
+// 导入login方法
+import { login } from "../api/http";
+
 export default {
   data() {
     return {
       // 数据保存地
       ruleForm: {
-        username: "",
-        password: ""
+        username: "admin",
+        password: "123456"
       },
 
       // 表单提示规则
@@ -69,43 +72,43 @@ export default {
   methods: {
     // 登录接口
     submitForm(val) {
+      // 先判断是否为空值
       if (
         this.ruleForm.username.length != 0 ||
         this.ruleForm.password.length != 0
       ) {
         this.$refs[val].validate(valid => {
+          // 是否符合表单验证规则
           if (valid) {
-            // 符合表单验证规则
-            this.$axios
-              .post(`login`, {
-                username: this.ruleForm.username,
-                password: this.ruleForm.password
-              })
-              .then(res => {
-                if (res.data.data != null) {
-                  // 登录成功提示
-                  this.$message({
-                    showClose: true,
-                    message: res.data.meta.msg,
-                    type: "success"
-                  });
-                  // 执行跳转路由页面
-                  this.$router.push("/index");
-                } else {
-                  // 登录失败提示
-                  this.$message({
-                    showClose: true,
-                    message: res.data.meta.msg,
-                    type: "error"
-                  });
-                }
-              });
+            // 符合
+            login(this.ruleForm).then(res => {
+              if (res.data.meta.status == 200) {
+                // 登录成功提示
+                this.$message({
+                  showClose: true,
+                  message: res.data.meta.msg,
+                  type: "success"
+                });
+                // 保存返回的token
+                window.sessionStorage.setItem("token", res.data.data.token);
+                // 执行跳转路由页面
+                this.$router.push("/index");
+              } else {
+                // 登录失败提示
+                this.$message({
+                  showClose: true,
+                  message: res.data.meta.msg,
+                  type: "error"
+                });
+              }
+            });
           } else {
             // 不符合表达验证规则
             return false;
           }
         });
       } else {
+        // 为空提示
         this.$message({
           showClose: true,
           message: "请输入完整的账号或密码！",
@@ -114,6 +117,7 @@ export default {
       }
     },
 
+    // 不开放注册的功能
     tishi() {
       this.$message({
         showClose: true,
