@@ -1,25 +1,26 @@
 <template>
-  <el-container class="mys_container">
+  <!-- 直接套用模板布局 -->
+  <el-container class="my_container">
     <!-- 头部 -->
-    <el-header class="header">
-      <el-row :gutter="20">
-        <el-col :span="4" justify="center" align="middle">
-          <img src="../assets/img/Snipaste_2019-08-15_15-12-19.jpg" alt height="50px" />
+    <el-header class="my_header">
+      <el-row>
+        <el-col :span="2" align="middle" justify="center">
+          <img src="../assets/img/Snipaste_2019-08-15_20-09-39.jpg" alt height="55px" />
         </el-col>
-        <el-col :span="16" justify="center" align="middle">
-          <i class="header_i">后台商品管理系统</i>
+        <el-col :span="20" class="my_header_i" align="middle" justify="center">
+          <i>后台管理系统</i>
         </el-col>
-        <el-col :span="4" justify="center" align="middle">
-          <a class="header_a" @click.prevent="logout">注销</a>
+        <el-col :span="2" class="my_header_p" align="middle" justify="center">
+          <p @click.prevent="logout()">注销</p>
         </el-col>
       </el-row>
     </el-header>
 
     <el-container>
       <!-- 侧栏 -->
-      <el-aside width="180px" class="mys_aside" style="overflow-x: hidden">
-        <el-menu class="el-menu-vertical-demo" unique-opened router collapse-transition>
-          <el-submenu :index="''+temp.order" v-for="(temp, index) in menuitems" :key="index">
+      <el-aside width="150px" class="my_aside">
+        <el-menu class="el-menu-vertical-demo" unique-opened router>
+          <el-submenu :index="''+index" v-for="(temp, index) in menuList" :key="index">
             <template slot="title">
               <i class="el-icon-menu"></i>
               <span>{{temp.authName}}</span>
@@ -32,8 +33,9 @@
         </el-menu>
       </el-aside>
 
-      <!-- 底部 -->
-      <el-main class="mys_main">
+      <!-- 内容 -->
+      <el-main class="my_main">
+        <!-- 设置子路由 -->
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -41,18 +43,28 @@
 </template>
 
 <script>
-import { menus } from "../api/http";
+// 导入左侧菜单的方法
+import { menus } from "../http/http";
 
 export default {
   data() {
     return {
-      menuitems: []
+      // 用个数组存数据
+      menuList: []
     };
   },
 
+  created() {
+    // 获取左侧菜单数据
+    menus().then(res => {
+      this.menuList = res.data.data;
+    });
+  },
+
   methods: {
+    // 注销提示
     logout() {
-      this.$confirm("此操作将注销账户, 是否继续?", "提示", {
+      this.$confirm("此操作将会注销, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -63,11 +75,11 @@ export default {
             message: "注销成功!"
           });
 
-          // 发送请求注销
+          // 如果注销成功删除掉token
           window.sessionStorage.removeItem("token");
 
-          // 返回登录页面
-          this.$router.push("/login");
+          // 同时进行页面跳转到登录
+          this.$rouer.push("/login");
         })
         .catch(() => {
           this.$message({
@@ -76,44 +88,46 @@ export default {
           });
         });
     }
-  },
-
-  created() {
-    menus().then(res => {
-      this.menuitems = res.data.data;
-    });
   }
 };
 </script>
 
 <style lang="less" scoped>
-.header {
-  background-color: rgb(42, 142, 182);
-  height: 60px;
-  line-height: 60px;
-}
-
-.header_i {
-  font-size: 25px;
-  color: #fff;
-  letter-spacing: 2px;
-}
-.header_a {
-  font-size: 16px;
-  color: #fff;
-  cursor: pointer;
-  letter-spacing: 2px;
-}
-
-.mys_container {
+.my_container {
   height: 100%;
 }
 
-.mys_aside {
+.my_header {
+  height: 60px;
+  background-color: #f6f6f6;
+}
+
+.my_header_i {
+  font-size: 25px;
+  color: rgb(0, 0, 0);
+  line-height: 60px;
+  letter-spacing: 2px;
+}
+
+.my_header_p {
+  font-size: 14px;
+  color: rgb(158, 158, 158);
+  cursor: pointer;
+  line-height: 60px;
+  letter-spacing: 2px;
+  :hover {
+    color: #f6f6f6;
+    background-color: rgb(0, 0, 0);
+  }
+}
+
+.my_aside {
+  overflow-x: hidden;
   background-color: rgb(255, 255, 255);
 }
 
-.mys_main {
-  background-color: rgb(218, 218, 218);
+.my_main {
+  background-color: rgb(219, 219, 219);
 }
 </style>
+

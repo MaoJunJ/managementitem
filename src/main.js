@@ -8,8 +8,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
-// 导入封装的路由对象
-import router from './routet/router'
+// 导入路由
+import router from './router/router'
 
 new Vue({
   render: h => h(App),
@@ -19,3 +19,4 @@ new Vue({
 
 // 导入全局样式
 import './assets/css/base.css'
+

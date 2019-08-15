@@ -1,3 +1,4 @@
+// 导入路由
 import Vue from 'vue'
 
 // npm导入的路由数据
@@ -7,7 +8,8 @@ Vue.use(VueRouter)
 // 设置路由跳转的地址
 import login from '../components/login.vue'
 import index from '../components/index.vue'
-// 设置子路由的跳转
+
+// 以下是子路由的跳转地址
 import users from '../components/innet/users.vue'
 import roles from '../components/innet/roles.vue'
 import rights from '../components/innet/rights.vue'
@@ -28,30 +30,32 @@ const routes = [
   },
   {
     path: '/index', component: index,
-    children:[
+
+    // 开启子路由
+    children: [
       {
-        path:'/users',component:users
+        path: '/users', component: users
       },
       {
-        path:'/roles',component:roles
+        path: '/roles', component: roles
       },
       {
-        path:'/rights',component:rights
+        path: '/rights', component: rights
       },
       {
-        path:'/reports',component:reports
+        path: '/reports', component: reports
       },
       {
-        path:'/params',component:params
+        path: '/params', component: params
       },
       {
-        path:'/orders',component:orders
+        path: '/orders', component: orders
       },
       {
-        path:'/goods',component:goods
+        path: '/goods', component: goods
       },
       {
-        path:'/categories',component:categories
+        path: '/categories', component: categories
       },
     ]
   },
@@ -64,14 +68,18 @@ const router = new VueRouter({
 
 // 一开始判断是否已经登录
 router.beforeEach((to, from, next) => {
+
   // to是去哪  from是从哪来  next()放行
   if (to.path == '/login') {
+    // 如果是登录放行
     next()
   } else {
+    // 否则判断token
     if (window.sessionStorage.getItem('token')) {
-      next();
+      next()
     } else {
 
+      // 如果没有进入登录
       router.push('/login');
 
       Vue.prototype.$message({
@@ -84,3 +92,4 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+

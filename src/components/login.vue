@@ -2,6 +2,8 @@
   <div class="loginbg">
     <div class="loginbox">
       <div class="logintop">登录界面</div>
+
+      <!-- 导入模板 -->
       <el-form
         :model="ruleForm"
         status-icon
@@ -22,6 +24,7 @@
             autocomplete="off"
           ></el-input>
         </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" class="my_width">登录</el-button>
         </el-form-item>
@@ -34,8 +37,8 @@
 </template>
 
 <script>
-// 导入login方法
-import { login } from "../api/http";
+// 导入login
+import { login } from "../http/http";
 
 export default {
   data() {
@@ -70,15 +73,15 @@ export default {
     };
   },
   methods: {
-    // 登录接口
+    // 登录方法
     submitForm(val) {
-      // 先判断是否为空值
+      // 判断是否为空
       if (
         this.ruleForm.username.length != 0 ||
         this.ruleForm.password.length != 0
       ) {
         this.$refs[val].validate(valid => {
-          // 是否符合表单验证规则
+          // 符合表单验证规则
           if (valid) {
             // 符合
             login(this.ruleForm).then(res => {
@@ -89,7 +92,7 @@ export default {
                   message: res.data.meta.msg,
                   type: "success"
                 });
-                // 保存返回的token
+                // 保存token记录
                 window.sessionStorage.setItem("token", res.data.data.token);
                 // 执行跳转路由页面
                 this.$router.push("/index");
@@ -108,7 +111,7 @@ export default {
           }
         });
       } else {
-        // 为空提示
+        // 为空
         this.$message({
           showClose: true,
           message: "请输入完整的账号或密码！",
@@ -117,7 +120,7 @@ export default {
       }
     },
 
-    // 不开放注册的功能
+    // 注册功能不开放
     tishi() {
       this.$message({
         showClose: true,
@@ -142,7 +145,6 @@ export default {
     height: 400px;
     background-color: #fff;
     border-radius: 30px;
-    // box-shadow: 0px 0px 50px 5px rgb(156, 156, 156);
     padding: 0px 50px;
     .my_width {
       width: 100%;
@@ -153,10 +155,10 @@ export default {
       text-align: center;
       line-height: 50px;
       border-radius: 0px 0px 10px 10px;
-      background-color: #6cc1d6;
+      background-color: #dbdbdb;
       font-size: 20px;
       letter-spacing: 2px;
-      color: #fff;
+      color: rgb(0, 0, 0);
       margin-bottom: 5px;
     }
   }
