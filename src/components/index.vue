@@ -4,13 +4,13 @@
     <!-- 头部 -->
     <el-header class="my_header">
       <el-row>
-        <el-col :span="2" align="middle" justify="center">
-          <img src="../assets/img/Snipaste_2019-08-15_20-09-39.jpg" alt height="55px" />
+        <el-col :span="2" align="middle" justify="center" class="my_header_img">
+          <img src="../assets/img/Snipaste_2019-08-15_20-09-39.jpg" alt height="50px" />
         </el-col>
-        <el-col :span="20" class="my_header_i" align="middle" justify="center">
+        <el-col :span="21" class="my_header_i" align="middle" justify="center">
           <i>后台管理系统</i>
         </el-col>
-        <el-col :span="2" class="my_header_p" align="middle" justify="center">
+        <el-col :span="1" class="my_header_p" align="middle" justify="center">
           <p @click.prevent="logout()">注销</p>
         </el-col>
       </el-row>
@@ -79,7 +79,7 @@ export default {
           window.sessionStorage.removeItem("token");
 
           // 同时进行页面跳转到登录
-          this.$rouer.push("/login");
+          this.$router.push("/login");
         })
         .catch(() => {
           this.$message({
@@ -121,13 +121,18 @@ export default {
   }
 }
 
+.my_header_img {
+  line-height: 50px;
+}
+
 .my_aside {
   overflow-x: hidden;
   background-color: rgb(255, 255, 255);
 }
 
 .my_main {
-  background-color: rgb(219, 219, 219);
+  background-color: #c7c7c7;
+  padding: 0;
 }
 </style>
 
