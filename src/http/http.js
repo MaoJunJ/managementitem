@@ -93,3 +93,34 @@ export const listOfAllPermissions = (type) => {
   return http.get(`rights/${type}`)
 }
 
+// 删除角色指定权限
+export const deletesRolespecifiedPermissions = (roleId, rightId) => {
+  return http.delete(`roles/${roleId}/rights/${rightId}`)
+}
+
+// 添加角色
+export const addingRoles = ({ roleName, roleDesc }) => {
+  return http.post(`roles`, {
+    roleName, roleDesc
+  })
+}
+
+// 编辑角色
+export const editingTheRole = ({ roleName, roleDesc, id }) => {
+  return http.put(`roles/${id}`, {
+    roleName, roleDesc
+  })
+}
+
+// 删除角色
+export const deleteTheRole = (id) => {
+  return http.delete(`roles/${id}`)
+}
+
+// 角色授权
+export const roleAuthorization = (roleId, rids) => {
+  return http.post(`roles/${roleId}/rights`, {
+    rids
+  })
+}
+

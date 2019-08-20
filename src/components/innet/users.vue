@@ -73,6 +73,7 @@
             icon="el-icon-s-operation"
             circle
             @click="handleAssignUserRoles(scope.row)"
+            title="权限"
           ></el-button>
           <el-button
             size="mini"
@@ -80,6 +81,7 @@
             icon="el-icon-edit"
             circle
             @click="handleEditUserSubmission(scope.row)"
+            title="设置"
           ></el-button>
           <el-button
             size="mini"
@@ -87,6 +89,7 @@
             icon="el-icon-delete"
             circle
             @click="handleDelete(scope.row)"
+            title="删除"
           ></el-button>
         </template>
       </el-table-column>
