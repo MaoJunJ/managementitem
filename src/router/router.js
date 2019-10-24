@@ -16,8 +16,12 @@ import rights from '../components/innet/rights.vue'
 import reports from '../components/innet/reports.vue'
 import params from '../components/innet/params.vue'
 import orders from '../components/innet/orders.vue'
-import goods from '../components/innet/goods.vue'
+import goods from '../components/innet/goods/goods.vue'
 import categories from '../components/innet/categories.vue'
+
+// 以下是子子路由的跳转地址
+import goodslist from '../components/innet/goods/goodslist.vue'
+import addTheGoods from '../components/innet/goods/addTheGoods.vue'
 
 // 设置路由规则
 const routes = [
@@ -33,6 +37,9 @@ const routes = [
 
     // 开启子路由
     children: [
+      {
+        path: '/index', redirect: '/users'
+      },
       {
         path: '/users', component: users
       },
@@ -52,7 +59,20 @@ const routes = [
         path: '/orders', component: orders
       },
       {
-        path: '/goods', component: goods
+        path: '/goods', component: goods,
+
+        // 开启子子路由
+        children: [
+          {
+            path: '/goods', redirect: '/goodslist'
+          },
+          {
+            path: '/goodslist', component: goodslist
+          },
+          {
+            path: '/addTheGoods', component: addTheGoods
+          },
+        ]
       },
       {
         path: '/categories', component: categories
@@ -92,4 +112,3 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
-

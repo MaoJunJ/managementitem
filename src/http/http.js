@@ -124,3 +124,76 @@ export const roleAuthorization = (roleId, rids) => {
   })
 }
 
+// 商品列表数据
+export const itemListData = ({ query, pagenum, pagesize }) => {
+  return http.get(`goods`, {
+    params: {
+      query, pagenum, pagesize
+    }
+  })
+}
+
+// 编辑商品
+export const editSubmitItems = ({ goods_cat, goods_id, goods_name, goods_price, goods_number, goods_weight }) => {
+  return http.put(`goods/${goods_id}`, {
+    goods_cat, goods_name, goods_price, goods_number, goods_weight
+  })
+}
+
+// 添加商品
+export const addTheGoods = ({ goods_cat, goods_name, goods_price, goods_number, goods_weight }) => {
+  return http.post(`goods`, {
+    goods_cat, goods_name, goods_price, goods_number, goods_weight
+  })
+}
+
+// 删除商品
+export const deleteTheGoods = (goods_id) => {
+  return http.delete(`goods/${goods_id}`)
+}
+
+// 商品分类列表
+export const commodityLists = (type) => {
+  return http.get(`categories`, {
+    params: {
+      type
+    }
+  })
+}
+
+// 添加商品分类
+export const addCategorys = ({ cat_pid, cat_name, cat_level }) => {
+  return http.post(`categories`, {
+    cat_pid, cat_name, cat_level
+  })
+}
+
+// 编辑商品分类
+export const editProductCategoriess = ({ cat_id, cat_name }) => {
+  return http.put(`categories/${cat_id}`, { cat_name })
+}
+
+// 删除商品分类
+export const deleteCategory = (cat_id) => {
+  return http.delete(`categories/${cat_id}`)
+}
+
+// 绘制图表
+export const newecharts = () => {
+  return http.get('reports/type/1')
+}
+
+// 订单数据列表
+export const orderDataList = ({ pagenum, pagesize }) => {
+  return http.get('orders', {
+    params: {
+      pagenum, pagesize
+    }
+  })
+}
+
+// 根据 ID 查询参数
+export const accordingToID = (url) => {
+  return http.get(`${url}`)
+}
+

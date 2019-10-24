@@ -3,36 +3,23 @@
     <!-- 导入面包屑导航 -->
     <crumbs one="用户管理" two="用户列表"></crumbs>
 
-    <el-row :gutter="5" class="my_table">
-      <el-col :span="7">
-        <hr />
-      </el-col>
-
-      <el-col :span="8">
-        <!-- 导入搜索框 -->
-        <el-input
-          @keyup.native="gouesrs"
-          placeholder="请输入内容"
-          v-model.trim="usersobj.query"
-          class="input-with-select"
-          clearable
-        >
-          <el-button slot="append" icon="el-icon-search" @keyup.enter.native="gouesrs"></el-button>
-        </el-input>
-      </el-col>
+    <el-row class="my_row">
+      <!-- 导入搜索框 -->
+      <el-input
+        @keyup.native="gouesrs"
+        placeholder="请输入姓名"
+        v-model.trim="usersobj.query"
+        class="input-with-select my_input"
+        clearable
+      >
+        <el-button slot="append" icon="el-icon-search" @keyup.enter.native="gouesrs"></el-button>
+      </el-input>
 
       <!-- 导入添加用户 -->
-      <el-col :span="2">
-        <el-button type="info" round size="medium" @click="dialogFormVisible = true">添加用户</el-button>
-      </el-col>
-
-      <el-col :span="7">
-        <hr />
-      </el-col>
+      <el-button icon="el-icon-plus" circle @click="dialogFormVisible=true"></el-button>
     </el-row>
 
     <!-- 导入表格 -->
-    <!-- 用 ':formatter' 来绑定 设置时间格式的方法 dateForma -->
     <el-table :data="userlist" style="width: 100%" stripe border>
       <el-table-column
         type="index"
@@ -458,18 +445,23 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.my_table {
-  height: 50px;
-  background-color: #e9e9e9;
-  line-height: 40px;
-  padding: 0 15px;
-}
-
 .clears {
   overflow-x: hidden;
 }
 
 .my_pagination {
   margin-top: 10px;
+}
+
+.my_row {
+  height: 50px;
+  line-height: 40px;
+  background-color: #e9e9e9;
+  text-align: center;
+}
+
+.my_input {
+  width: 300px;
+  margin-right: 10px;
 }
 </style>

@@ -19,7 +19,7 @@
     <el-container>
       <!-- 侧栏 -->
       <el-aside width="150px" class="my_aside">
-        <el-menu class="el-menu-vertical-demo" unique-opened router>
+        <el-menu :default-active="'users'" class="el-menu-vertical-demo" unique-opened router>
           <el-submenu :index="''+index" v-for="(temp, index) in menuList" :key="index">
             <template slot="title">
               <i class="el-icon-menu"></i>

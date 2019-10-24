@@ -4,7 +4,7 @@
     <crumbs one="权限管理" two="权限列表"></crumbs>
 
     <!-- 导入表格 -->
-    <el-table :data="userlist" style="width: 100%" stripe border>
+    <el-table :data="userlist" style="width: 100%" stripe border height="500">
       <el-table-column
         type="index"
         :index="indexMethod"

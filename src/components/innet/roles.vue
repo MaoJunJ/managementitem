@@ -395,10 +395,11 @@ export default {
 
     // 提交分配权限id信息
     gopowerAndResponsibility() {
-      roleAuthorization(
-        this.id,
-        this.$refs.tree.getCheckedKeys().join(",")
-      ).then(res => {
+      let newstr = [
+        ...this.$refs.tree.getCheckedKeys(),
+        ...this.$refs.tree.getHalfCheckedKeys()
+      ].join();
+      roleAuthorization(this.id, newstr).then(res => {
         if (res.data.meta.status == 200) {
           this.$message({
             message: res.data.meta.msg,
